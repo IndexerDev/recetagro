@@ -1,0 +1,49 @@
+﻿@model RecetAgro_WS.Models.Productor
+@{
+    ViewBag.Title = "New";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Nuevo Productor</h3>
+<h5>Agregue un nuevo Productor al Catálogo</h5>
+
+@using (Html.BeginForm("Save", "Productor"))
+{
+    @Html.ValidationSummary(true, "Corrija los siguientes errores para continuar.")
+    <div class="form-group">
+        @Html.LabelFor(p => p.Nombre)
+        @Html.TextBoxFor(p => p.Nombre, new { @class = "form-control" })
+        @Html.ValidationMessageFor(p => p.Nombre)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(p => p.ApellidoPaterno)
+        @Html.TextBoxFor(p => p.ApellidoPaterno, new { @class = "form-control" })
+        @Html.ValidationMessageFor(p => p.ApellidoPaterno)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(p => p.ApellidoMaterno)
+        @Html.TextBoxFor(p => p.ApellidoMaterno, new { @class = "form-control" })
+        @Html.ValidationMessageFor(p => p.ApellidoMaterno)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(p => p.Telefono)
+        @Html.TextBoxFor(p => p.Telefono, new { @class = "form-control" })
+        @Html.ValidationMessageFor(p => p.Telefono)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(p => p.Email)
+        @Html.TextBoxFor(p => p.Email, new { @class = "form-control" })
+        @Html.ValidationMessageFor(p => p.Email)
+    </div>
+
+    @Html.HiddenFor(p => p.Id)
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
