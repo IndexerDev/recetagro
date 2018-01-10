@@ -25,7 +25,7 @@ namespace RecetAgro_WS.Controllers.Api
         // GET   /api/productores
         public IEnumerable<ProductorDto> GetProductores()
         {
-            return _context.Productores.ToList().Select(Mapper.Map<Productor, ProductorDto>);
+            return _context.Productores.ToList().Select(Mapper.Map<Productor, ProductorDto>);            
         }
 
 

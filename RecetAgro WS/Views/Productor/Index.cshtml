@@ -18,7 +18,8 @@
     </div>
 </div>  
 <hr />
-@if (!Model.Any())
+
+@*@if (!Model.Any())
 {
     <p>No hay elementos para mostrar</p>
 }
@@ -52,14 +53,69 @@ else
 
         </tbody>
     </table>
-}
+}*@
+
+@*-----------------------------------------------------*@
+
+<table id="productores" class="table table-hover table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th>Nombre</th>
+            <th>Paterno</th>
+            <th>Materno</th>
+            <th>Telefono</th>
+            <th>Email</th>
+            <th>Eliminar</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
 
 @section scripts
 {
     <script>
         $(document).ready(function () {            
 
-            $("#productores").DataTable();
+          var table =  $("#productores").DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"                    
+                },
+
+                ajax: {
+                    url: "/api/productores",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "nombre",
+                        render: function (data, type, row) {
+                            return "<a href='/productor/edit/" + row.id + "'>" + row.nombre + "</a>";                            
+                        }
+                    },
+                    {
+                        data: "apellidoPaterno"
+                    },
+                    {
+                        data: "apellidoMaterno"
+                    },
+                    {
+                        data: "telefono"
+                    },
+                    {
+                        data: "email"
+                    },
+                    {
+                        data: "id",
+                        render: function (data) {
+                            return "<button class='btn btn-danger js-delete' data-productor-id=" + data + ">Eliminar</button>";
+                        }
+                    }
+                ]
+            });
+
+
+
 
             $("#productores").on("click", ".js-delete", function () {                
                 var button = $(this);
@@ -69,7 +125,8 @@ else
                         url: "/api/productores/" + button.attr("data-productor-id"),
                         method: "DELETE",
                         success: function () {
-                            button.parents("tr").remove();                            
+                            table.row(button.parents("tr")).remove().draw();
+                            //button.parents("tr").remove();
                             toastr.success("Registro eliminado");
                         }
                     });
